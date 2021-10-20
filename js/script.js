@@ -104,4 +104,66 @@ function fillPageContent() {
     fillProgressBar();
   }
   fillPageContent();
-  
+
+  //Bookmarked
+const bookmarkButton = document.querySelector('.intro__text-block__buttons__button-two');
+const bookmarked = localStorage.getItem('bookmarked');
+
+function bookmark() {
+  bookmarkButton.classList.add('bookmarked');
+  bookmarkButton.lastElementChild.textContent = 'Bookmarked';
+  localStorage.setItem('bookmarked', 'true');
+}
+function notBookmarked() {
+  bookmarkButton.classList.remove('bookmarked');
+  bookmarkButton.lastElementChild.textContent = 'Bookmark';
+  localStorage.setItem('bookmarked', 'false');
+}
+function checkBookmark() {
+  if (bookmarked === 'true') {
+    bookmark();
+  }
+}
+bookmarkButton.addEventListener('click', () => {
+  if (bookmarkButton.classList.contains('bookmarked')) {
+    notBookmarked();
+  } else {
+    bookmark();
+  }
+});
+checkBookmark();
+
+
+//Pledge Option: show block to enter pledge amount for specific pledge
+const pledgeOptions = document.querySelectorAll('.back-project-modal__form__option__input');
+const pledgeOptionsOuters = document.querySelectorAll('.back-project-modal__form__option');
+const pledgeOptionsInnersTwo = document.querySelectorAll('.back-project-modal__form__option__inner-two');
+
+function resetPledgeOptionsNonSelected() {
+  pledgeOptionsOuters.forEach((pledgeOptionOuter) => {
+    pledgeOptionOuter.classList.remove('checked');
+  });
+  pledgeOptionsInnersTwo.forEach((pledgeOptionInnerTwo) => {
+    pledgeOptionInnerTwo.style.display = 'none';
+  });
+}
+function openPledgeOptionSelected() {
+  pledgeOptions.forEach((pledgeOption) => {
+    let optionSelection = pledgeOption.parentElement.parentElement;
+    let optionInnerTwo = pledgeOption.parentElement.nextElementSibling;
+    if (pledgeOption.checked) {
+      previousChecked = pledgeOption;
+      optionSelection.classList.add('checked');
+      optionInnerTwo.style.display = 'grid';
+    }
+    pledgeOption.addEventListener('change', () => {
+      resetPledgeOptionsNonSelected();
+      if (pledgeOption.checked) {
+        previousChecked = pledgeOption;
+        optionSelection.classList.add('checked');
+        optionInnerTwo.style.display = 'grid';
+      }
+    });
+  });
+}
+openPledgeOptionSelected();
