@@ -5,6 +5,8 @@ const menu = document.querySelector('.header__nav__menu');
 let menuLinks = document.querySelectorAll('.header__nav__menu__link');
 const backgroundFade = document.querySelector('.background-fade');
 
+
+//Menu Functionality
 function hideMenu(){
     menu.classList.add('hidden');
     menuButtonImage.src = 'images/icon-hamburger.svg';
@@ -41,3 +43,65 @@ menuLinks.forEach((menuLink) => {
       hideMenu();
     });
   });
+
+  //Fill content
+let bambooLeft = document.querySelectorAll('.bamboo-pledge-left');
+let blackLeft = document.querySelectorAll('.black-pledge-left');
+let mahoganyLeft = document.querySelectorAll('.mahogany-pledge-left');
+let bambooNumber = 101;
+let blackNumber = 64;
+let mahoganyNumber = 0;
+let amountRaisedNumber = 89914;
+let totalBackersNumber = 5007;
+let amountRaised = document.querySelector('.amount-raised');
+let totalBackers = document.querySelector('.total-backers');
+
+// Format Thousands numbers
+function formatThousands(number) {
+    let value;
+    let num1 = number.toString().slice(0, -3);
+    let num2 = number.toString().slice(-3);
+    return (value = `${num1},${num2}`);
+  }
+  amountRaised.textContent = '$' + formatThousands(amountRaisedNumber);
+  totalBackers.textContent = formatThousands(totalBackersNumber);
+  
+  //Check all pledges left and diasble block if 0
+  function checkPledgesLeft(pledge) {
+    let number = parseInt(pledge.textContent);
+    if (number === 0) {
+      pledge.parentElement.parentElement.classList.add('disabled');
+      if (pledge.parentElement.nextElementSibling && pledge.parentElement.nextElementSibling.classList.contains('about__pledge-option__button')) {
+        pledge.parentElement.nextElementSibling.textContent = 'Out of Stock';
+        pledge.parentElement.nextElementSibling.disabled = 'true';
+      }
+      if (pledge.parentElement.parentElement.firstElementChild.classList.contains('back-project-modal__form__option__input')) {
+        pledge.parentElement.parentElement.firstElementChild.disabled = 'true';
+      }
+    }
+  }
+  function fillPledgeLeft(content, number) {
+    content.forEach((content) => {
+      content.textContent = number;
+      checkPledgesLeft(content);
+    });
+  }
+  
+  //Progress bar
+  function fillProgressBar() {
+    const progressBarFiller = document.querySelector('.progress-bar__filler');
+    const totalBacked = 100000;
+    let width = (amountRaisedNumber / totalBacked) * 100;
+  
+    progressBarFiller.style.width = width + '%';
+  }
+
+  //Fill out the page content
+function fillPageContent() {
+    fillPledgeLeft(bambooLeft, bambooNumber);
+    fillPledgeLeft(blackLeft, blackNumber);
+    fillPledgeLeft(mahoganyLeft, mahoganyNumber);
+    fillProgressBar();
+  }
+  fillPageContent();
+  
