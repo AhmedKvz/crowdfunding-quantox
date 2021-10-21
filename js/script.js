@@ -167,3 +167,53 @@ function openPledgeOptionSelected() {
   });
 }
 openPledgeOptionSelected();
+
+
+//Close and open Pledge modal
+const closeModalButton = document.querySelector('.back-project-modal__close-icon');
+const modalOuter = document.querySelector('.modal-outer');
+const modalPledge = document.querySelector('.back-project-modal');
+const selectRewardButtons = document.querySelectorAll('.about__pledge-option__button');
+
+function openModal(pledgeType) {
+  modalOuter.classList.add('open');
+  modalPledge.classList.add('open');
+  switch (pledgeType) {
+    case 'bamboo':
+      modalPledge.lastElementChild.bamboo.checked = 'true';
+      break;
+    case 'black':
+      modalPledge.lastElementChild.black.checked = 'true';
+      break;
+    case 'mahogany':
+      modalPledge.lastElementChild.mahogany.checked = 'true';
+      break;
+    default:
+      break;
+  }
+  openPledgeOptionSelected();
+}
+
+
+function closeModal() {
+    modalOuter.classList.remove('open');
+    modalPledge.classList.remove('open');
+  }
+  
+  closeModalButton.addEventListener('click', () => {
+    closeModal();
+    resetPledgeOptionsNonSelected();
+  });
+  
+  selectRewardButtons.forEach((selectRewardButton) => {
+    selectRewardButton.addEventListener('click', () => {
+      let pledgeType = selectRewardButton.getAttribute('data-pledge');
+      document.documentElement.scrollTo({
+        top: 200,
+        behavior: 'smooth',
+      });
+      openModal(pledgeType);
+    });
+  });
+ 
+  
